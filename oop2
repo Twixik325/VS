@@ -1,0 +1,21 @@
+/*Создайте массив из 10 элементов. Затем сформируйте второй массив, каждый i-ый элемент которого должен 
+ * быть равен сумме i-ого элемента отсортированного по убыванию массива и оригинального i-ого элемента. */
+Random rnd = new Random();
+int[] arr1 = new int[10];
+int[] arr2 = new int[10];
+int[] arr3 = new int[10];
+Console.WriteLine("Исходный массив:");
+for (int i = 0; i < 9; i++){
+    arr1[i] = rnd.Next(0, 100);
+    arr2[i] = arr1[i];
+    Console.Write(arr1[i] + " ");
+}
+Array.Sort(arr1);
+Array.Reverse(arr1);
+Console.WriteLine("\nОтсортированный массив:");
+for (int i = 0; i < 9; i++)Console.Write(arr1[i] + " ");
+Console.WriteLine("\nИскомый массив:");
+for (int i = 0; i < 9; i++){
+    arr3[i] = arr1[i] + arr2[i];
+    Console.Write(arr3[i] + " ");
+}
