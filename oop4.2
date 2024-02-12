@@ -1,0 +1,31 @@
+Random rnd = new Random();
+int[] arr1 = new int[20];
+Console.WriteLine("Начальный массив:");
+for (int i = 0; i < arr1.Length; i++)
+{
+    arr1[i] = rnd.Next(-10, 10);
+    Console.Write(arr1[i] + " ");
+}
+(int min, int max, double mid) = Arrator2(arr1);
+Console.WriteLine("\nМинимальный элемент массива:" + min);
+Console.WriteLine("Максимальный элемент массива:" + max);
+Console.WriteLine("Среднее значение положительных элементов массива:" + mid);
+static (int, int, double) Arrator2(int[] arr1)
+{
+    int max = -10;
+    int min = 10;
+    int sum = 0;
+    int count = 0;
+    for (int i = 0; i < arr1.Length; i++)
+    {
+        if (arr1[i] > max) max = arr1[i];
+        if (arr1[i] < min) min = arr1[i];
+        if (arr1[i] > 0)
+        {
+            sum += arr1[i];
+            count++;
+        }
+    }
+    double mid = (double)sum / (double)count;
+    return (min, max, mid);
+}
