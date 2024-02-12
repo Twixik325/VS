@@ -1,0 +1,18 @@
+﻿/*Дана строка символов, состоящая из произвольного текста на английском языке, слова разделены пробелами.
+ * Удалить первую букву в каждом слове. */
+string? input = Console.ReadLine();
+string str1 = ""; 
+if (input != null)
+{
+    for (int i = 0; i < input.Length; i++)
+    {
+        if (i != 0)
+        {
+            if (input[i - 1] != ' ')
+            {
+                str1 += input[i];
+            }
+        }        
+    }
+}
+Console.WriteLine(str1);
