@@ -1,0 +1,46 @@
+/*Разработайте метод, возвращающий целочисленный массив элементов со значениями, переданными в качестве набора параметров. 
+Метод первым параметром должен принимать массив, а дальше переменное количество чисел, которые будут удаляться из этого массива. 
+Возвращаться должен новый массив, состоящий из элементов оригинального массива, за исключением удаляемых. */
+Random rnd = new Random();
+int[] arr1 = new int[20];
+Console.WriteLine("Начальный массив:");
+for (int i = 0; i < arr1.Length; i++)
+{
+    arr1[i] = rnd.Next(1, 10);
+    Console.Write(arr1[i] + " ");
+}
+int[] arr2 = Arrator(arr1, 1, 2, 3);
+Console.WriteLine("\nИзмененный массив:");
+foreach (int num in arr2)
+{
+    Console.Write(num + " ");
+}
+
+static int[] Arrator(int[] arr1, params int[] num)
+{
+    int count = arr1.Length;
+    bool[] f = new bool[arr1.Length];
+    for (int i = 0; i < arr1.Length; i++)
+    {
+        for (int j = 0; j < num.Length; j++)
+        {
+            if (arr1[i] == num[j])
+            {
+                f[i] = true;
+                count--;
+                break;
+            }
+        }
+    }
+    int[] arr2 = new int[count];
+    int index = 0;
+    for (int i = 0; i < arr1.Length; i++)
+    {
+        if (!f[i])
+        {
+            arr2[index] = arr1[i];
+            index++;
+        }
+    }
+    return arr2;
+}
