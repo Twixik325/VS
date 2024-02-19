@@ -17,7 +17,7 @@
 User User2 = new User();
 User2.name = "Петр Саранча";
 User2.nationality = "Русский";
-User2.age = 0;
+User2.age = null;
 User2.sex = null;
 
 User2.join_website();
@@ -40,63 +40,76 @@ User1.log_in();
 User1.check_info();
 User1.add_info();
 User1.check_info();
-class User{
+class User
+{
     public string name;
     public string nationality;
     public string sex;
-    public int age;
+    public int? age;
     public string username;
     public string status;
     public bool registered;
     public bool added_info;
-    public void A() {status = "Гость";}
-    public void B(bool registered, bool added_info){
+    public void A() { status = "Гость"; }
+    public void B(bool registered, bool added_info)
+    {
         this.registered = false;
         this.added_info = false;
     }
-    public void join_website(){
+    public void join_website()
+    {
         Console.WriteLine("Неизвестный пользователь вошел на сайт.");
     }
-    public void register(){
+    public void register()
+    {
         Random randGen = new Random();
-        int rnd = randGen.Next(1,999);
+        int rnd = randGen.Next(1, 999);
         string username = this.name + rnd;
         Console.WriteLine("Пользователь {0} зарегистрировался.", username);
         this.username = username;
         this.registered = true;
     }
-    public void log_in(){
-        if (registered){
+    public void log_in()
+    {
+        if (registered)
+        {
             Console.WriteLine("Пользователь {0} вошел в учетную запись.", this.username);
             this.status = "вошел в учетную запись";
         }
         else Console.WriteLine("Не удалось войти в учетную запись. Сперва пользователь должен зарегистрироваться!");
     }
-    public void add_info(){
-        if (this.status == "вошел в учетную запись"){
-            if (this.age != 0 && this.sex != null) Console.WriteLine("Пользователь {0} добавил информацию в профиль.", this.username);
-            else{
-                if (this.age == 0) add_age();
+    public void add_info()
+    {
+        if (this.status == "вошел в учетную запись")
+        {
+            if (this.age != null && this.sex != null) Console.WriteLine("Пользователь {0} добавил информацию в профиль.", this.username);
+            else
+            {
+                if (this.age == null) add_age();
                 if (this.sex == null) add_sex();
             }
             this.added_info = true;
         }
         else Console.WriteLine("Не удалось добавить информацию в профиль. Сперва пользователь должен войти в учетную запись!");
     }
-    private void add_age(){
+    private void add_age()
+    {
         Random randGen = new Random();
         this.age = randGen.Next(14, 99);
         Console.WriteLine("Пользователь {0} добавил возраст в свой профиль.", this.username);
     }
-    private void add_sex(){
+    private void add_sex()
+    {
         Random randGen = new Random();
         int rnd = randGen.Next(0, 1);
         if (rnd == 0) this.sex = "Мужской";
         else this.sex = "Женский";
         Console.WriteLine("Пользователь {0} добавил пол в свой профиль.", this.username);
     }
-    public void check_info(){
-        if (this.added_info){
+    public void check_info()
+    {
+        if (this.added_info)
+        {
             Console.WriteLine("\n---Профиль {0}---", this.username);
             Console.WriteLine("Имя: {0}", this.name);
             Console.WriteLine("Национальность: {0}", this.nationality);
@@ -106,5 +119,5 @@ class User{
         }
         else Console.WriteLine("Не удалось проверить информацию профиля. Сперва пользователь должен добавить информацию в свой профиль!");
     }
-    ~User(){}
+    ~User() { }
 }
