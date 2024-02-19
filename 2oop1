@@ -1,0 +1,45 @@
+/*Напишите статический метод, принимающий параметр-строку. Метод должен возвращать число, полученное путём следующих вычислений: 
+сумма кодов всех уникальных символов в строке в степени количества их повторений, и всё это по модулю 8. 
+Например, для строки «Мурсапилами» нужно посчитать: 
+Коды: М – 1052, у – 1091, р – 1088, с – 1089, а – 1072, п – 1087, и – 1080, л – 1083, м – 1084. 
+(1052^1 + 1091^1 + 1088^1 + 1089^1 + 1072^2 + 1087^1 + 1080^2 + 1083^1 + 1084^1) % 8 =
+= (1052 + 1091 + 1088 + 1089 + 1149184 + 1087 + 1166400 + 1083 + 1084) % 8 = 2323158 % 8 = 6. */
+string? input = Console.ReadLine();
+char ch;
+int n = 0;
+char[] arr1 = new char[64];
+int[] arr2 = new int[64];
+for (int i = 1040; i <= 1103; i++)
+{
+    ch = System.Convert.ToChar(i);
+    arr1[n] = ch; //Массив букв алфавита
+    arr2[n] = i; //Массив кодов букв алфавита
+    //Console.Write(Convert.ToString(arr1[n]) + " " + arr2[n] + " ");
+    n++;
+}
+if (input != null) Console.WriteLine(CodeSum(input, arr1, arr2));
+static int CodeSum(string input, char[] arr1, int[] arr2){
+    int sum = 0;
+    var list = new List<int>();//Создаем список для кодов букв в нашем слове
+    if (input != null){
+        for (int i = 0; i < arr1.Length; i++){
+            for (int j = 0; j < input.Length; j++){
+                if (input[j] == arr1[i]){
+                    if (list.Contains(arr2[i])){ //Если в списке уже есть такой код, то умножаем код
+                        list[list.Count - 1] *= arr2[i];
+                    }
+                    else list.Add(arr2[i]); //Если в списке нет такого кода, то добавляем
+                    Console.Write(arr2[i] + " ");
+                }
+            }
+        }
+    }
+    Console.WriteLine();
+    for (int i = 0; i < list.Count; i++){
+        sum += list[i];
+        Console.Write(list[i] + " ");
+    }
+    Console.WriteLine("\n" + sum);
+    int res = sum % 8;
+    return res;
+}
