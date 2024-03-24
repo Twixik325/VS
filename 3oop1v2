@@ -40,64 +40,63 @@ else
 int n = Convert.ToInt32(words[0]);
 int m = Convert.ToInt32(words[1]);
 
-int[,] Arr2 = new int[n, m];
-int[] Arr1 = new int[n * m];
-int[][] Arr3 = new int[n][];
-
-// Инициализация ступенчатого массива
+// Инициализация массивов экземплярами класса Exam
+Exam[] Exams1D = new Exam[n * m];
+Exam[,] Exams2D = new Exam[n, m];
+Exam[][] ExamsJagged = new Exam[n][];
 for (int i = 0; i < n; i++)
 {
-    Arr3[i] = new int[m];
+    ExamsJagged[i] = new Exam[m];
 }
 
-// Заполнение массивов случайными значениями
-Random rand = new Random();
+// Заполнение массивов экземплярами класса Exam
 for (int i = 0; i < n * m; i++)
 {
-    Arr1[i] = rand.Next();
+    Exams1D[i] = new Exam("Subject", 80, new DateTime(2023, 6, 1));
 }
 for (int i = 0; i < n; i++)
 {
     for (int j = 0; j < m; j++)
     {
-        Arr2[i, j] = rand.Next();
-        Arr3[i][j] = rand.Next();
+        Exams2D[i, j] = new Exam("Subject", 75, new DateTime(2023, 6, 5));
+        ExamsJagged[i][j] = new Exam("Subject", 90, new DateTime(2023, 6, 10));
     }
 }
 
-// Измерение времени для одномерного массива
+// Измерение времени для одномерного массива экземпляров класса Exam
 int start = Environment.TickCount;
 for (int i = 0; i < n * m; i++)
 {
-    Arr1[i] *= 2;
+    Exams1D[i].Grade *= 2;
 }
 int Time1 = Environment.TickCount - start;
 
-// Измерение времени для двумерного массива
+// Измерение времени для двумерного массива экземпляров класса Exam
 start = Environment.TickCount;
 for (int i = 0; i < n; i++)
 {
     for (int j = 0; j < m; j++)
     {
-        Arr2[i, j] *= 2;
+        Exams2D[i, j].Grade *= 2;
     }
 }
 int Time2 = Environment.TickCount - start;
 
-// Измерение времени для ступенчатого массива
+// Измерение времени для ступенчатого массива экземпляров класса Exam
 start = Environment.TickCount;
 for (int i = 0; i < n; i++)
 {
     for (int j = 0; j < m; j++)
     {
-        Arr3[i][j] *= 2;
+        ExamsJagged[i][j].Grade *= 2;
     }
 }
 int Time3 = Environment.TickCount - start;
 
-Console.WriteLine("Время выполнения для одномерного массива: " + Time1 + " миллисекунд");
-Console.WriteLine("Время выполнения для двумерного массива: " + Time2 + " миллисекунд");
-Console.WriteLine("Время выполнения для ступенчатого массива: " + Time3 + " миллисекунд");
+Console.WriteLine("Время выполнения для одномерного массива экземпляров класса Exam: " + Time1 + " миллисекунд");
+Console.WriteLine("Время выполнения для двумерного массива экземпляров класса Exam: " + Time2 + " миллисекунд");
+Console.WriteLine("Время выполнения для ступенчатого массива экземпляров класса Exam: " + Time3 + " миллисекунд");
+
 public class Person
 {
     public string name;
