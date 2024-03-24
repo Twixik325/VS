@@ -1,0 +1,280 @@
+using System;
+
+Student student = new Student(new Person("Иван", "Иванов", new DateTime(2000, 5, 10)), Education.Bachelor, 12345);
+Console.WriteLine(student.ToShortString());
+
+
+student.Education = Education.Specialist;
+Console.WriteLine("Has specialist education: " + student[Education.Specialist]);
+
+student.Education = Education.Bachelor;
+Console.WriteLine("Has bachelor education: " + student[Education.Bachelor]);
+
+student.Education = Education.SecondEducation;
+Console.WriteLine("Has second education: " + student[Education.SecondEducation]);
+
+student.Person = new Person("Петр", "Петров", new DateTime(1999, 3, 15));
+student.Education = Education.SecondEducation;
+student.GroupNumber = 54321;
+Console.WriteLine(student.ToString());
+
+student.AddExams(new Exam("Math", 80, new DateTime(2023, 6, 1)), new Exam("Physics", 75, new DateTime(2023, 6, 5)));
+Console.WriteLine(student.ToString());
+
+Console.WriteLine("Введите количество строк, запятую, пробел и количество столбцов:");
+string str = Console.ReadLine();
+string[] words;
+if (str.Contains(","))
+{
+    words = str.Split(",");
+}
+else if (str.Contains(" "))
+{
+    words = str.Split(" ");
+}
+else
+{
+    words = str.Split(", ");
+}
+
+int n = Convert.ToInt32(words[0]);
+int m = Convert.ToInt32(words[1]);
+
+int[,] Arr2 = new int[n, m];
+int[] Arr1 = new int[n * m];
+int[][] Arr3 = new int[n][];
+
+// Инициализация ступенчатого массива
+for (int i = 0; i < n; i++)
+{
+    Arr3[i] = new int[m];
+}
+
+// Заполнение массивов случайными значениями
+Random rand = new Random();
+for (int i = 0; i < n * m; i++)
+{
+    Arr1[i] = rand.Next();
+}
+for (int i = 0; i < n; i++)
+{
+    for (int j = 0; j < m; j++)
+    {
+        Arr2[i, j] = rand.Next();
+        Arr3[i][j] = rand.Next();
+    }
+}
+
+// Измерение времени для одномерного массива
+int start = Environment.TickCount;
+for (int i = 0; i < n * m; i++)
+{
+    Arr1[i] *= 2;
+}
+int Time1 = Environment.TickCount - start;
+
+// Измерение времени для двумерного массива
+start = Environment.TickCount;
+for (int i = 0; i < n; i++)
+{
+    for (int j = 0; j < m; j++)
+    {
+        Arr2[i, j] *= 2;
+    }
+}
+int Time2 = Environment.TickCount - start;
+
+// Измерение времени для ступенчатого массива
+start = Environment.TickCount;
+for (int i = 0; i < n; i++)
+{
+    for (int j = 0; j < m; j++)
+    {
+        Arr3[i][j] *= 2;
+    }
+}
+int Time3 = Environment.TickCount - start;
+
+Console.WriteLine("Время выполнения для одномерного массива: " + Time1 + " миллисекунд");
+Console.WriteLine("Время выполнения для двумерного массива: " + Time2 + " миллисекунд");
+Console.WriteLine("Время выполнения для ступенчатого массива: " + Time3 + " миллисекунд");
+public class Person
+{
+    public string name;
+    public string lastname;
+    public DateTime date;
+    public int year;
+    public Person()
+    {
+        this.name = "Имя";
+        this.lastname = "Фамилия";
+        this.date = new DateTime(2000, 1, 1);
+    }
+    public Person(string name, string lastname, DateTime date)
+    {
+        this.name = name;
+        this.lastname = lastname;
+        this.date = date;
+    }
+    private string Name
+    {
+        get { return this.name; }
+        set { this.name = value; }
+    }
+    private string Lastname
+    {
+        get { return this.lastname; }
+        set { this.lastname = value; }
+    }
+    private DateTime Date
+    {
+        get { return this.date; }
+        set { this.date = value; }
+    }
+    private int Year
+    {
+        get { return this.date.Year; }
+        set { this.year = value; }
+    }
+    public override string ToString()
+    {
+        return name + " " + lastname + " " + Convert.ToString(date);
+    }
+    public string ToShortString()
+    {
+        return name + " " + lastname;
+    }
+
+    ~Person() { }
+}
+
+public enum Education
+{
+    Specialist,
+    Bachelor,
+    SecondEducation
+}
+
+public class Exam
+{
+    public string Subject { get; set; }
+    public int Grade { get; set; }
+    public DateTime ExamDate { get; set; }
+
+    public Exam(string subject, int grade, DateTime examDate)
+    {
+        this.Subject = subject;
+        this.Grade = grade;
+        this.ExamDate = examDate;
+    }
+
+    public Exam()
+    {
+        this.Subject = "Unknown";
+        this.Grade = 0;
+        this.ExamDate = DateTime.Now;
+    }
+
+    public override string ToString()
+    {
+        return Subject + " " + Convert.ToString(Grade) + " " + Convert.ToString(ExamDate);
+    }
+}
+
+public class Student
+{
+    private Person _person;
+    private Education _education;
+    private int _groupNumber;
+    private Exam[] _exams;
+
+    public Person Person
+    {
+        get { return _person; }
+        set { _person = value; }
+    }
+
+    public Education Education
+    {
+        get { return _education; }
+        set { _education = value; }
+    }
+
+    public int GroupNumber
+    {
+        get { return _groupNumber; }
+        set { _groupNumber = value; }
+    }
+
+    public Exam[] Exams
+    {
+        get { return _exams; }
+        set { _exams = value; }
+    }
+
+    public double AverageGrade
+    {
+        get
+        {
+            if (_exams == null || _exams.Length == 0)
+                return 0;
+
+            double sum = 0;
+            foreach (var exam in _exams)
+            {
+                sum += exam.Grade;
+            }
+
+            return sum / _exams.Length;
+        }
+    }
+
+    public bool this[Education index]
+    {
+        get { return _education == index; }
+    }
+
+    public void AddExams(params Exam[] exams)
+    {
+        if (_exams == null)
+            _exams = exams;
+        else
+        {
+            int currentLength = _exams.Length;
+            Array.Resize(ref _exams, currentLength + exams.Length);
+            Array.Copy(exams, 0, _exams, currentLength, exams.Length);
+        }
+    }
+
+    public override string ToString()
+    {
+        string examsInfo = "";
+        if (_exams != null)
+        {
+            foreach (var exam in _exams)
+            {
+                examsInfo += exam.ToString() + "\n";
+            }
+        }
+
+        return $"Person: {_person}, Education: {_education}, Group Number: {_groupNumber}, Exams:\n{examsInfo}";
+    }
+
+    public virtual string ToShortString()
+    {
+        return $"Person: {_person}, Education: {_education}, Group Number: {_groupNumber}, Average Grade: {AverageGrade}";
+    }
+
+    public Student(Person person, Education education, int group)
+    {
+        this._person = person;
+        this._education = education;
+        this._groupNumber = group;
+    }
+    public Student()
+    {
+        this._person = new Person();
+        this._education = Education.Bachelor;
+        this._groupNumber = 0;
+    }
+}
